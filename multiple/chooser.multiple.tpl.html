@@ -1,0 +1,11 @@
+<div class="chooser chooser-multiple">
+	<div class="chooser-chosens" ng-click="openMenu($event)">
+		<div class="chooser-chosen" ng-repeat="item in model">
+			{{ item | chooserLabelFilter:labelKey }} <a class="chooser-remove-link fa fa-times" href ng-click="removeOption($event, item)"></a>
+		</div>
+		<div class="chooser-chosen-add-container">
+			<div class="chooser-chosen-add fa fa-plus"></div>
+		</div>
+	</div>
+	<chooser-dropdown></chooser-dropdown>
+</div>

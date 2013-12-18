@@ -1,0 +1,65 @@
+.chooser-single {
+	@chooser-accent-color: #34495f;
+	position: relative;
+
+	.chooser-toggle {
+		display: table;
+		background: #ffffff;
+		color: #333333;
+		font-size: 14px;
+		border-radius: 3px;
+		line-height: 1;
+		border: 2px solid @chooser-accent-color;
+		.user-select(none);
+		cursor: pointer;
+		outline: 0 !important;
+		padding: 0;
+
+		& > span {
+			display: table-cell;
+			padding: 10px 20px 10px 15px;
+		}
+
+		& > .caret-container {
+			display: table-cell;
+			background: @chooser-accent-color;
+			padding: 10px;
+
+			& > .caret {
+				border-top-color: #ffffff;
+			}
+		}
+
+		&:hover {
+			border-color: lighten(@chooser-accent-color, 5%);
+
+			& > .caret-container {
+				background: lighten(@chooser-accent-color, 5%);
+			}
+		}
+
+		&:focus, &:active {
+			border-color: darken(@chooser-accent-color, 5%);
+			background: #dddddd;
+
+			& > .caret-container {
+				background: darken(@chooser-accent-color, 5%);
+			}
+		}
+
+		.placeholder {
+			color: #777e86;
+		}
+	}
+
+	&.open {
+		.chooser-toggle {
+			border-color: darken(@chooser-accent-color, 5%);
+			background: #dddddd;
+
+			& > .caret-container {
+				background: darken(@chooser-accent-color, 5%);
+			}
+		}
+	}
+}
