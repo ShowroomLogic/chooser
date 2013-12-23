@@ -10,7 +10,11 @@
 		border-radius: 3px;
 		line-height: 1;
 		border: 2px solid @chooser-accent-color;
-		.user-select(none);
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		    -ms-user-select: none; // IE10+
+		     -o-user-select: none;
+		        user-select: none;
 		cursor: pointer;
 		outline: 0 !important;
 		padding: 0;

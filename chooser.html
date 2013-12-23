@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="chooserDemo">
+  <head>
+    <title>Chooser Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- styles -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet/css" type="text/css" href="css/chooser.css" />
+    <!-- scripts -->
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="chooser.js"></script>
+    <script src="chooserDemo.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chooser Demo</h1>
+      <div class="section" ng-controller="ChooserDemoSingleCtrl">
+        {{testValue}}
+      </div>
+    </div>
+  </body>
+</html>

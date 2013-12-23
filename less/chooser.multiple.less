@@ -8,7 +8,11 @@
 		font-size: 0; // necessary to get rid of some whitespace between elements
 		border-radius: 4px;
 		border: 2px solid @chooser-accent-color;
-		.user-select(none);
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		    -ms-user-select: none; // IE10+
+		     -o-user-select: none;
+		        user-select: none;
 		padding: 6px 6px 1px;
 
 		&:hover {
