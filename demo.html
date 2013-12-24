@@ -20,9 +20,11 @@
       <h1>Chooser Demo</h1>
       <div class="section well" ng-controller="ChooserDemoSingleCtrl">
         <h4>Single Value Demo</h4>
-        <chooser ng-model="singleModel" options="items" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
-        <chooser ng-model="singleModel" options="items" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
-        Selected Value: {{singleModel|json}}
+        <chooser ng-model="model" options="items" ng-class="{invalid:!isValid()}" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
+        <h5>Selected Value: </h5>
+        <div>{{model|json}}</div>
+        <h5>Items: </h5>
+        <div>{{items|json}}</div>
       </div>
     </div>
   </body>

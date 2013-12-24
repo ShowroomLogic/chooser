@@ -196,13 +196,14 @@ angular.module('chooser.single', [
 		link: function(scope, element) {
 			
 			var updateText = function(model, placeholder) {
-				var modelLabel = $filter('chooserLabelFilter')(scope.selectedItem, scope.labelKey),
-					labelExists = modelLabel && modelLabel.length,
-					text = labelExists ? modelLabel : placeholder || 'Select';
-				element.find('.chosen-text').toggleClass('placeholder', !labelExists).html(text);
+				
 			};
 
-			scope.$watch('model', function(model) {
+			scope.$watchCollection('[model, items, placeholder]', function(newValues, oldValues) {
+				var model = newValues[0],
+					items = newValues[1],
+					placeholder = newValues[2];
+
 				if (!scope.valueKey) {
 					scope.selectedItem = model;
 				} else {
@@ -210,11 +211,13 @@ angular.module('chooser.single', [
 					predicate[scope.valueKey] = model;
 					scope.selectedItem = _.find(scope.items, predicate);
 				}
-				updateText(model, scope.placeholder);
-			});
 
-			scope.$watch('placeholder', function(placeholder) {
-				updateText(scope.model, placeholder);
+				var modelLabel = $filter('chooserLabelFilter')(scope.selectedItem, scope.labelKey),
+					labelExists = modelLabel && modelLabel.length,
+					text = labelExists ? modelLabel : placeholder || 'Select';
+				
+				element.find('.chosen-text').removeClass('invalid').toggleClass('placeholder', !labelExists).html(text);
+				
 			});
 		}
 	};
