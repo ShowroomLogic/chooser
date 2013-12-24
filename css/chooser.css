@@ -48,6 +48,12 @@
 .chooser-single .chooser-toggle .placeholder {
   color: #777e86;
 }
+.chooser-single.disabled .chooser-toggle {
+  border-color: #DDD;
+}
+.chooser-single.disabled .chooser-toggle > .caret-container {
+  background: #DDD;
+}
 .chooser-single.open .chooser-toggle {
   border-color: #2b3c4f;
   background: #dddddd;

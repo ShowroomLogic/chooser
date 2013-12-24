@@ -56,6 +56,21 @@
 		}
 	}
 
+	&[disabled="disabled"] {
+		.chooser-toggle {
+			border-color: #DDD;
+			background-color: #F3F3F3;
+
+			& > .caret-container {
+				background: #DDD;
+			}
+
+			.placeholder {
+				color: #BBB;
+			}
+		}
+	}
+
 	&.open {
 		.chooser-toggle {
 			border-color: darken(@chooser-accent-color, 5%);

@@ -27,7 +27,7 @@ angular.module('chooser.dropdown', [
 	return {
 		restrict: 'E',
 		require: ['?^chooser', '?^chooserMultiple', '?^chooserTags'],
-		templateUrl: 'chooser/partials/chooser.dropdown.tpl.html',
+		templateUrl: 'partials/chooser.dropdown.tpl.html',
 		link: function(scope, element, attrs, ctrls) {
 			var chooserCtrl = ctrls[0] || ctrls[1] || ctrls[2];
 			if (!chooserCtrl) {
@@ -101,7 +101,7 @@ angular.module('chooser.dropdown', [
 
 				if (wasOpen) {
 					closeMenu();
-				} else if (!chooserElement.hasClass('disabled') && !chooserElement.prop('disabled')) {
+				} else if (!chooserElement.hasClass('disabled') && !chooserElement.attr('disabled')) {
 					if (openChooser) {
 						$rootScope.$broadcast('closeChooser_' + openChooser);
 					}
@@ -113,11 +113,11 @@ angular.module('chooser.dropdown', [
 					scope.$search = '';
 
 					closeMenu = function (event) {
-						if (event.preventDefault) {
+						if (event && event.preventDefault) {
 							event.preventDefault();
 						}
 
-						if (event.stopPropagation) {
+						if (event && event.stopPropagation) {
 							event.stopPropagation();
 						}
 						$document.off('click', closeMenu);
@@ -173,23 +173,33 @@ angular.module('chooser.single', [
 
 	return {
 		restrict: 'E',
-		templateUrl: 'chooser/partials/chooser.single.tpl.html',
+		replace: true,
+		templateUrl: 'partials/chooser.single.tpl.html',
 		scope: {
 			labelKey: '@',
+			valueKey: '@',
 			items: '=options',
 			model: '=ngModel',
-			placeholder: '@placeholder'
+			placeholder: '=placeholder'
 		},
 		controller: function($scope) {
+			$scope.hasItems = false;
 			this.chooseOption = function(option) {
-				$scope.model = option;
+				if (!$scope.valueKey) {
+					$scope.model = option;
+				} else {
+					$scope.model = option[$scope.valueKey];
+				}
 			};
 		},
 		link: function(scope, element) {
-			scope.$watch('model', function(model) {
-				var modelLabel = $filter('chooserLabelFilter')(model, scope.labelKey),
-						labelExists = modelLabel && modelLabel.length,
-						text = labelExists ? modelLabel : scope.placeholder || 'Select';
+			
+			scope.$watchCollection('[model, placeholder]', function(newValues) {
+				var model = newValues[0],
+					placeholder = newValues[1],
+					modelLabel = $filter('chooserLabelFilter')(model, scope.labelKey),
+					labelExists = modelLabel && modelLabel.length,
+					text = labelExists ? modelLabel : placeholder || 'Select';
 
 				element.find('.chosen-text').toggleClass('placeholder', !labelExists).html(text);
 			});
@@ -204,7 +214,7 @@ angular.module('chooser.multiple', [
 
 	return {
 		restrict: 'E',
-		templateUrl: 'chooser/partials/chooser.multiple.tpl.html',
+		templateUrl: 'partials/chooser.multiple.tpl.html',
 		scope: {
 			labelKey: '@',
 			items: '=options',
@@ -241,7 +251,7 @@ angular.module('chooser.tags', [
 	return {
 		restrict: 'E',
 		require: 'chooserTags',
-		templateUrl: 'chooser/partials/chooser.tags.tpl.html',
+		templateUrl: 'partials/chooser.tags.tpl.html',
 		scope: {
 			items: '=options',
 			model: '=ngModel',
