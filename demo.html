@@ -11,16 +11,18 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
     <script src="chooser.js"></script>
     <script src="demo.js"></script>
   </head>
   <body>
     <div class="container">
       <h1>Chooser Demo</h1>
-      <div class="section" ng-controller="ChooserDemoSingleCtrl">
-        <h2>Single Value Demo</h2>
+      <div class="section well" ng-controller="ChooserDemoSingleCtrl">
+        <h4>Single Value Demo</h4>
         <chooser ng-model="singleModel" options="items" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
-        {{singleModel|json}}
+        <chooser ng-model="singleModel" options="items" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
+        Selected Value: {{singleModel|json}}
       </div>
     </div>
   </body>

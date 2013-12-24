@@ -14,6 +14,9 @@ chooserDemo.controller('ChooserDemoSingleCtrl', function ($scope, $timeout) {
       {label: "Item 6", value: 6}
     ];
     $scope.placeholder = "Select an item";
+    $timeout(function() {
+      $scope.singleModel = 4;
+    }, 1000);
   }, 5000);
   
 });

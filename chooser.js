@@ -185,23 +185,36 @@ angular.module('chooser.single', [
 		controller: function($scope) {
 			$scope.hasItems = false;
 			this.chooseOption = function(option) {
+				$scope.selectedItem = option;
 				if (!$scope.valueKey) {
-					$scope.model = option;
+					$scope.model = $scope.selectedItem;
 				} else {
-					$scope.model = option[$scope.valueKey];
+					$scope.model = $scope.selectedItem[$scope.valueKey];
 				}
 			};
 		},
 		link: function(scope, element) {
 			
-			scope.$watchCollection('[model, placeholder]', function(newValues) {
-				var model = newValues[0],
-					placeholder = newValues[1],
-					modelLabel = $filter('chooserLabelFilter')(model, scope.labelKey),
+			var updateText = function(model, placeholder) {
+				var modelLabel = $filter('chooserLabelFilter')(scope.selectedItem, scope.labelKey),
 					labelExists = modelLabel && modelLabel.length,
 					text = labelExists ? modelLabel : placeholder || 'Select';
-
 				element.find('.chosen-text').toggleClass('placeholder', !labelExists).html(text);
+			};
+
+			scope.$watch('model', function(model) {
+				if (!scope.valueKey) {
+					scope.selectedItem = model;
+				} else {
+					var predicate = {};
+					predicate[scope.valueKey] = model;
+					scope.selectedItem = _.find(scope.items, predicate);
+				}
+				updateText(model, scope.placeholder);
+			});
+
+			scope.$watch('placeholder', function(placeholder) {
+				updateText(scope.model, placeholder);
 			});
 		}
 	};
