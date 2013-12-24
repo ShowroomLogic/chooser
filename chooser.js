@@ -195,10 +195,6 @@ angular.module('chooser.single', [
 		},
 		link: function(scope, element) {
 			
-			var updateText = function(model, placeholder) {
-				
-			};
-
 			scope.$watchCollection('[model, items, placeholder]', function(newValues, oldValues) {
 				var model = newValues[0],
 					items = newValues[1],
