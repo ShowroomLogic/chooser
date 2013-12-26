@@ -34,18 +34,18 @@ angular.module('chooser.dropdown', [
 				throw new Error('No controller was found to use for the chooser dropdown.');
 			}
 
-			var filterOptions = function() {
-				var filteredOptions = $filter('filter')(scope.options, scope.$search);
+			var filterItems = function() {
+				var filteredItems = $filter('filter')(scope.items, scope.$search);
 
 				if (angular.isArray(scope.model)) {
-					filteredOptions = _.difference(scope.options, scope.model);
+					filteredItems = _.difference(scope.items, scope.model);
 				}
-				scope.filteredOptions = filteredOptions;
+				scope.filteredItems = filteredItems;
 			};
 
-			scope.$watch('$search', filterOptions);
-			scope.$watch('model', filterOptions, true);
-			scope.$watch('options', filterOptions, true);
+			scope.$watch('$search', filterItems);
+			scope.$watch('model', filterItems, true);
+			scope.$watch('items', filterItems, true);
 
 			// Set model value when a new option is chosen
 			scope.selectOption = function (event, option) {
@@ -64,7 +64,7 @@ angular.module('chooser.dropdown', [
 			};
 
 			var downArrow = function() {
-				if (scope.highlightedIndex < (scope.filteredOptions.length - 1)) {
+				if (scope.highlightedIndex < (scope.filteredItems.length - 1)) {
 					scope.$apply(function() {
 						scope.highlightedIndex++;
 					});
@@ -74,8 +74,8 @@ angular.module('chooser.dropdown', [
 			var highlightDefault = function() {
 				var highlightedIndex = 0;
 				if (scope.model && !angular.isArray(scope.model)) {
-					for (var i = 0; i < scope.filteredOptions.length; i++) {
-						if (angular.equals(scope.model, scope.filteredOptions[i])) {
+					for (var i = 0; i < scope.filteredItems.length; i++) {
+						if (angular.equals(scope.model, scope.filteredItems[i])) {
 							highlightedIndex = i;
 							break;
 						}
@@ -139,7 +139,7 @@ angular.module('chooser.dropdown', [
 								downArrow();
 								break;
 							case 13: //enter
-								var selected = scope.filteredOptions[scope.highlightedIndex];
+								var selected = scope.filteredItems[scope.highlightedIndex];
 								if (selected) {
 									scope.$apply(function() {
 										scope.selectOption(event, selected);
@@ -178,7 +178,7 @@ angular.module('chooser.single', [
 		scope: {
 			labelKey: '@',
 			valueKey: '@',
-			options: '=options',
+			items: '=options',
 			model: '=ngModel',
 			placeholder: '=placeholder'
 		},
@@ -196,30 +196,31 @@ angular.module('chooser.single', [
 			
 			scope.map = {};
 
-			scope.$watchCollection('[model, options, placeholder]', function(newValues, oldValues) {
-				var model = newValues[0],
-					options = newValues[1],
-					placeholder = newValues[2];
-
-				if (!scope.valueKey) {
-					scope.selectedItem = model;
-				} else {
-					
-					// Check to see if options have changed so we can set the property-to-object map
-					if (options && options.length && newValues[1] !== newValues[1]) {
-						for (var i = 0; i < options.length; i++) {
-							scope.map[options[i][scope.valueKey]] = options[i];
-						}
-					}
-					scope.selectedItem = scope.map[model];
-				}
-
+			var updateText = function() {
 				var modelLabel = $filter('chooserLabelFilter')(scope.selectedItem, scope.labelKey),
 					labelExists = modelLabel && modelLabel.length,
-					text = labelExists ? modelLabel : placeholder || 'Select';
-				
+					text = labelExists ? modelLabel : scope.placeholder || 'Select';
+
 				element.find('.chosen-text').removeClass('invalid').toggleClass('placeholder', !labelExists).html(text);
-				
+			};
+
+			scope.$watch('model', function(model) {
+				scope.selectedItem = !scope.valueKey ? model : scope.map[model];
+				updateText();
+			});
+
+			scope.$watch('placeholder', function(model) {
+				updateText();
+			});
+
+			scope.$watch('items', function(items) {
+				if (scope.valueKey && items) {
+					for (var i = 0; i < items.length; i++) {
+						scope.map[items[i][scope.valueKey]] = items[i];
+					}
+					scope.selectedItem = scope.map[scope.model];
+				}
+				updateText();
 			});
 		}
 	};
@@ -235,7 +236,7 @@ angular.module('chooser.multiple', [
 		templateUrl: 'partials/chooser.multiple.tpl.html',
 		scope: {
 			labelKey: '@',
-			options: '=options',
+			items: '=options',
 			model: '=ngModel',
 			placeholder: '@placeholder'
 		},
@@ -271,7 +272,7 @@ angular.module('chooser.tags', [
 		require: 'chooserTags',
 		templateUrl: 'partials/chooser.tags.tpl.html',
 		scope: {
-			options: '=options',
+			items: '=options',
 			model: '=ngModel',
 			placeholder: '@placeholder'
 		},
