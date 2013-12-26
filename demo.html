@@ -20,7 +20,7 @@
       <h1>Chooser Demo</h1>
       <div class="section well" ng-controller="ChooserDemoSingleCtrl">
         <h4>Basic Single Value Demo</h4>
-        <chooser ng-model="simpleModel" options="states" placeholder="'Choose a state'" label-key="name" value-key="abbr"></chooser>
+        <chooser ng-model="simpleModel" options="states" placeholder="'Choose a state'" label-key="name"></chooser>
         <h5>Selected Value: </h5>
         <div>{{simpleModel|json}}</div>
         <hr/>
