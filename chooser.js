@@ -75,7 +75,8 @@ angular.module('chooser.dropdown', [
 				var highlightedIndex = 0;
 				if (scope.model && !angular.isArray(scope.model)) {
 					for (var i = 0; i < scope.filteredItems.length; i++) {
-						if (angular.equals(scope.model, scope.filteredItems[i])) {
+						var comparison = scope.valueKey ? scope.filteredItems[i][scope.valueKey] : scope.filteredItems[i];
+						if (angular.equals(scope.model, comparison)) {
 							highlightedIndex = i;
 							break;
 						}
