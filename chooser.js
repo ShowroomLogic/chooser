@@ -183,7 +183,6 @@ angular.module('chooser.single', [
 			placeholder: '=placeholder'
 		},
 		controller: function($scope) {
-			$scope.hasItems = false;
 			this.chooseOption = function(option) {
 				$scope.selectedItem = option;
 				if (!$scope.valueKey) {
@@ -195,6 +194,8 @@ angular.module('chooser.single', [
 		},
 		link: function(scope, element) {
 			
+			scope.map = {};
+
 			scope.$watchCollection('[model, items, placeholder]', function(newValues, oldValues) {
 				var model = newValues[0],
 					items = newValues[1],
@@ -203,9 +204,14 @@ angular.module('chooser.single', [
 				if (!scope.valueKey) {
 					scope.selectedItem = model;
 				} else {
-					var predicate = {};
-					predicate[scope.valueKey] = model;
-					scope.selectedItem = _.find(scope.items, predicate);
+					
+					// Check to see if items have changed so we can set the property-to-object map
+					if (items && items.length && newValues[1] !== newValues[1]) {
+						for (var i = 0; i < items.length; i++) {
+							scope.map[items[i][scope.valueKey]] = items[i];
+						}
+					}
+					scope.selectedItem = scope.map[model];
 				}
 
 				var modelLabel = $filter('chooserLabelFilter')(scope.selectedItem, scope.labelKey),
