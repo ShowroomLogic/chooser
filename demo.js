@@ -1,6 +1,13 @@
 var chooserDemo = angular.module('chooserDemo', ['chooser']);
  
 chooserDemo.controller('ChooserDemoSingleCtrl', function ($scope, $timeout) {
+	
+	$scope.states = [
+		{name:'Texas', abbr:'TX'}, 
+		{name:'Florida', abbr:'FL'}, 
+		{name:'California', abbr:'CA'}
+	];
+
 	$scope.items = null;
 	
 	// Let's mess around with the items and the model over time

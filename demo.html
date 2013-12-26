@@ -19,10 +19,15 @@
     <div class="container">
       <h1>Chooser Demo</h1>
       <div class="section well" ng-controller="ChooserDemoSingleCtrl">
-        <h4>Single Value Demo</h4>
-        <chooser ng-model="model" options="items" ng-class="{invalid:!isValid}" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
+        <h4>Basic Single Value Demo</h4>
+        <chooser ng-model="simpleModel" options="states" placeholder="'Choose a state'" label-key="name" value-key="abbr"></chooser>
         <h5>Selected Value: </h5>
-        <div>{{model|json}}</div>
+        <div>{{simpleModel|json}}</div>
+        <hr/>
+        <h4>Advanced Single Value Demo</h4>
+        <chooser ng-model="advancedModel" options="items" ng-class="{invalid:!isValid}" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
+        <h5>Selected Value: </h5>
+        <div>{{advancedModel|json}}</div>
         <h5>Items: </h5>
         <div>{{items|json}}</div>
       </div>
