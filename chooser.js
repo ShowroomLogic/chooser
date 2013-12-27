@@ -2,7 +2,8 @@ angular.module('chooser', [
 	'chooser.dropdown',
 	'chooser.single',
 	'chooser.multiple',
-	'chooser.tags'
+	'chooser.tags',
+  'chooser.templates'
 ]).filter('chooserLabelFilter', function() {
 	'use strict';
 
@@ -27,7 +28,7 @@ angular.module('chooser.dropdown', [
 	return {
 		restrict: 'E',
 		require: ['?^chooser', '?^chooserMultiple', '?^chooserTags'],
-		templateUrl: 'partials/chooser.dropdown.tpl.html',
+		templateUrl: 'templates/chooser.dropdown.html',
 		link: function(scope, element, attrs, ctrls) {
 			var chooserCtrl = ctrls[0] || ctrls[1] || ctrls[2];
 			if (!chooserCtrl) {
@@ -174,7 +175,7 @@ angular.module('chooser.single', [
 	return {
 		restrict: 'E',
 		replace: true,
-		templateUrl: 'partials/chooser.single.tpl.html',
+		templateUrl: 'templates/chooser.single.tpl.html',
 		scope: {
 			labelKey: '@',
 			valueKey: '@',
@@ -233,7 +234,7 @@ angular.module('chooser.multiple', [
 
 	return {
 		restrict: 'E',
-		templateUrl: 'partials/chooser.multiple.tpl.html',
+		templateUrl: 'templates/chooser.multiple.html',
 		scope: {
 			labelKey: '@',
 			items: '=options',
@@ -270,7 +271,7 @@ angular.module('chooser.tags', [
 	return {
 		restrict: 'E',
 		require: 'chooserTags',
-		templateUrl: 'partials/chooser.tags.tpl.html',
+		templateUrl: 'templates/chooser.tags.tpl.html',
 		scope: {
 			items: '=options',
 			model: '=ngModel',

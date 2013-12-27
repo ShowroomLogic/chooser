@@ -1,0 +1,19 @@
+#chooser {
+  .user-select(@select-type: none) {
+    -webkit-user-select: @select-type;
+       -moz-user-select: @select-type;
+        -ms-user-select: @select-type; // IE10+
+         -o-user-select: @select-type;
+            user-select: @select-type;
+  }
+
+  .transition(@transition) {
+    -webkit-transition: @transition;
+    transition: @transition;
+  }
+
+  .box-shadow(@shadow) {
+    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+    box-shadow: @shadow;
+  }
+}

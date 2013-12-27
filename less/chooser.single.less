@@ -1,3 +1,5 @@
+@import "chooser.mixins.less";
+
 .chooser-single {
 	@chooser-accent-color: #34495f;
 	position: relative;
@@ -10,11 +12,7 @@
 		border-radius: 3px;
 		line-height: 1;
 		border: 2px solid @chooser-accent-color;
-		-webkit-user-select: none;
-		   -moz-user-select: none;
-		    -ms-user-select: none; // IE10+
-		     -o-user-select: none;
-		        user-select: none;
+		#chooser > .user-select(none);
 		cursor: pointer;
 		outline: 0 !important;
 		padding: 0;

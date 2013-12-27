@@ -1,0 +1,28 @@
+{
+  "name": "chooser",
+  "main": "chooser.js",
+  "version": "0.0.1",
+  "authors": [
+    "Joe Duchnowski",
+    "Chris Brantley"
+  ],
+  "description": "A completely angular-ized port of the popular Select2 jQuery plugin.",
+  "keywords": [
+    "Select2",
+    "angular",
+    "angularjs",
+    "select",
+    "tags"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": [
+
+  ]
+}
