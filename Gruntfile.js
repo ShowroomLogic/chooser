@@ -5,6 +5,13 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     build_dir: 'build',
     dist_dir: 'dist',
+    bump: {
+      options: {
+        files: ['bower.json', 'package.json'],
+        commitFiles: '<%= bump.options.files %>',
+        pushTo: 'origin'
+      }
+    },
     clean: {
       build: ['<%= build_dir %>'],
       dist: ['<%= dist_dir %>']
@@ -73,7 +80,8 @@ module.exports = function(grunt) {
     }
   });
 
-  [ 'grunt-contrib-clean',
+  [ 'grunt-bump',
+    'grunt-contrib-clean',
     'grunt-contrib-concat',
     'grunt-contrib-copy',
     'grunt-contrib-uglify',
