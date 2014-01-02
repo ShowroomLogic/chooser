@@ -13,7 +13,7 @@ This is your standard, single item chooser. Basically it's a fancy `<select>`
 that has a search textbox in the dropdown.
 
 ```html
-<chooser ng-model="singleModel" options="items" placeholder="Select an Option" label-key="title"></chooser>
+<chooser ng-model="singleModel" options="items" placeholder="Select an Option" label-key="title" value-key="value"></chooser>
 ```
 
 #### <chooser-multiple>
@@ -55,3 +55,8 @@ an array of strings, you can leave this blank. If your options are a list
 of objects, you need to tell the directive which property you want to use
 as the "display" property of each object. (ex. putting "title" here would
 print the "title" property of each object).
+
+#### value-key
+This attribute allows you specify which object property to bind to when a
+selection is made.  It's similar to "label-key" except for the model value.
+The default is to bind to the entire object.
