@@ -202,7 +202,7 @@ angular.module('chooser.single', [
 					labelExists = modelLabel && modelLabel.length,
 					text = labelExists ? modelLabel : scope.placeholder || 'Select';
 
-				element.find('.chosen-text').removeClass('invalid').toggleClass('placeholder', !labelExists).html(text);
+				element.find('.chosen-text').toggleClass('placeholder', !labelExists).html(text);
 			};
 
 			scope.$watch('model', function(model) {
@@ -215,6 +215,8 @@ angular.module('chooser.single', [
 			});
 
 			scope.$watch('items', function(items) {
+				scope.map = {};
+				scope.selectedItem = null;
 				if (scope.valueKey && items) {
 					for (var i = 0; i < items.length; i++) {
 						scope.map[items[i][scope.valueKey]] = items[i];
