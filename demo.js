@@ -1,6 +1,6 @@
 var chooserDemo = angular.module('chooserDemo', ['chooser']);
  
-chooserDemo.controller('ChooserDemoSingleCtrl', function ($scope, $timeout) {
+chooserDemo.controller('singleSimpleCtrl', function ($scope) {
 	
 	$scope.states = [
 		{name:'Texas', abbr:'TX'}, 
@@ -8,42 +8,35 @@ chooserDemo.controller('ChooserDemoSingleCtrl', function ($scope, $timeout) {
 		{name:'California', abbr:'CA'}
 	];
 
-	$scope.items = null;
-	
-	// Let's mess around with the items and the model over time
-	$timeout(function() {
-		
-		$scope.model = 4;
-		
-		$timeout(function() {
-			console.log("loading items...");
-			$scope.items = [
-				{label: "Item 1", value: 1},
-				{label: "Item 2", value: 2},
-				{label: "Item 3", value: 3},
-				{label: "Item 4", value: 4},
-				{label: "Item 5", value: 5},
-				{label: "Item 6", value: 6}
-			];
-			
-			$timeout(function() {
-				$scope.model = 7;
-			}, 3000);
+});
 
-		}, 3000);
+chooserDemo.controller('singleAdvancedCtrl', function($scope, $timeout) {
 
-	}, 1000);
+	$scope.options = null;
 
-	$scope.$watchCollection('[items, model]', function(values) {
+	$scope.items = [
+		{label: "Item 1", value: 1},
+		{label: "Item 2", value: 2},
+		{label: "Item 3", value: 3},
+		{label: "Item 4", value: 4},
+		{label: "Item 5", value: 5},
+		{label: "Item 6", value: 6}
+	];
+
+	$scope.$watchCollection('[options, model]', function(values) {
 		
-		var items = values[0],
+		var options = values[0],
 			model = values[1];
 
 		// Is the selection valid?
-		$scope.isValid = _.find(items, {value:model});
+		if (model) {
+			$scope.isValid = _.find(options, {value:model});
+		} else {
+			$scope.isValid = true;
+		}
 
 		// Set appropriate placeholder
-		if (items == null) {
+		if (options == null) {
 			$scope.placeholder = "Loading Options...";
 		} else if (!$scope.isValid) {
 			$scope.placeholder = "Invalid Option";

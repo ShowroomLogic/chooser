@@ -5,30 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- styles -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="dist/chooser.min.css" />
+    <link rel="stylesheet" href="dist/chooser.css" />
     <!-- scripts -->
-    <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
-	  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-    <script src="dist/chooser.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+	  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <script src="dist/chooser.js"></script>
     <script src="demo.js"></script>
   </head>
   <body>
     <div class="container">
-      <h1>Chooser Demo</h1>
-      <div class="section well" ng-controller="ChooserDemoSingleCtrl">
-        <h4>Basic Single Value Demo</h4>
-        <chooser ng-model="simpleModel" options="states" placeholder="'Choose a state'" label-key="name"></chooser>
-        <h5>Selected Value: </h5>
-        <div>{{simpleModel|json}}</div>
-        <hr/>
-        <h4>Advanced Single Value Demo</h4>
-        <chooser ng-model="advancedModel" options="items" ng-class="{invalid:!isValid}" ng-disabled="items==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
-        <h5>Selected Value: </h5>
-        <div>{{advancedModel|json}}</div>
-        <h5>Items: </h5>
-        <pre>{{items|json}}</pre>
+      <div class="page-header" style="margin-bottom: 40px">
+        <h1>Chooser Demo</h1>
       </div>
+
+      <div class="page-header">
+        <h3>Single Value (simple)</h3>
+      </div>
+      <div class="row" ng-controller="singleSimpleCtrl">
+        <div class="col-md-4">
+          <chooser ng-model="model" options="states" placeholder="'Choose a state'" label-key="name"></chooser>
+        </div>
+        <div class="col-md-4">
+          <pre>options = {{states|json}}</pre>
+        </div>
+        <div class="col-md-4">
+          <pre>model = {{model|json}}</pre>
+        </div>
+      </div>
+
+      <div class="page-header">
+        <h3>Single Value (advanced)</h3>
+      </div>
+      <div class="row" ng-controller="singleAdvancedCtrl">
+        <div class="col-md-4">
+          <chooser ng-model="model" options="options" ng-class="{invalid:!isValid}" ng-disabled="options==null" placeholder="placeholder" label-key="label" value-key="value"></chooser>
+          <div class="btn-group-vertical" style="margin: 5px;">
+            <button class="btn btn-primary" ng-click="options = items">Load Options</button>
+            <button class="btn btn-primary" ng-click="options = null">options = null</button>
+            <button class="btn btn-primary" ng-click="options = []">options = []</button>
+            <button class="btn btn-info" ng-click="model = 4">model = 4</button>
+            <button class="btn btn-info" ng-click="model = 7">model = 7</button>
+            <button class="btn btn-info" ng-click="model = undefined">model = undefined</button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <pre>options = {{options|json}}</pre>
+        </div>
+        <div class="col-md-4">
+          <pre>model = {{model|json}}</pre>
+        </div>
+      </div>
+
     </div>
   </body>
 </html>
