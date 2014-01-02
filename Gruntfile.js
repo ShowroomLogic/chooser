@@ -34,10 +34,11 @@ module.exports = function(grunt) {
     },
     html2js: {
       options: {
+        base: 'src',
         module: 'chooser.templates'
       },
       build: {
-        src: ['templates/**/*.html'],
+        src: ['src/templates/**/*.html'],
         dest: '<%= build_dir %>/templates.js'
       }
     },
@@ -45,7 +46,7 @@ module.exports = function(grunt) {
       build: {
         files: [
           {
-            src: ['<%= pkg.name %>.js'],
+            src: ['src/<%= pkg.name %>.js'],
             dest: '<%= build_dir %>/<%= pkg.name %>.js'
           }
         ]
@@ -57,7 +58,7 @@ module.exports = function(grunt) {
           compile: true
         },
         files: {
-          '<%= build_dir %>/<%= pkg.name %>.css': ['less/<%= pkg.name %>.less']
+          '<%= build_dir %>/<%= pkg.name %>.css': ['src/less/<%= pkg.name %>.less']
         }
       },
       dist: {
