@@ -175,7 +175,7 @@ angular.module('chooser.single', ['chooser.dropdown']).directive('chooser', [
         scope.map = {};
         var updateText = function () {
           var modelLabel = $filter('chooserLabelFilter')(scope.selectedItem, scope.labelKey), labelExists = modelLabel && modelLabel.length, text = labelExists ? modelLabel : scope.placeholder || 'Select';
-          element.find('.chosen-text').removeClass('invalid').toggleClass('placeholder', !labelExists).html(text);
+          element.find('.chosen-text').toggleClass('placeholder', !labelExists).html(text);
         };
         scope.$watch('model', function (model) {
           scope.selectedItem = !scope.valueKey ? model : scope.map[model];
@@ -185,6 +185,8 @@ angular.module('chooser.single', ['chooser.dropdown']).directive('chooser', [
           updateText();
         });
         scope.$watch('items', function (items) {
+          scope.map = {};
+          scope.selectedItem = null;
           if (scope.valueKey && items) {
             for (var i = 0; i < items.length; i++) {
               scope.map[items[i][scope.valueKey]] = items[i];
@@ -296,10 +298,10 @@ angular.module('chooser.tags', []).directive('chooserTags', function () {
     }
   };
 });
-angular.module('chooser.templates', ['../templates/chooser.dropdown.html', '../templates/chooser.multiple.html', '../templates/chooser.single.tpl.html', '../templates/chooser.tags.tpl.html']);
+angular.module('chooser.templates', ['templates/chooser.dropdown.html', 'templates/chooser.multiple.html', 'templates/chooser.single.tpl.html', 'templates/chooser.tags.tpl.html']);
 
-angular.module("../templates/chooser.dropdown.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("../templates/chooser.dropdown.html",
+angular.module("templates/chooser.dropdown.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/chooser.dropdown.html",
     "<ul class=\"chooser-dropdown\">\n" +
     "	<li class=\"chooser-dropdown-search\">\n" +
     "		<input type=\"text\" ng-model=\"$search\" ng-click=\"$event.stopPropagation();\" placeholder=\"Search\" />\n" +
@@ -313,8 +315,8 @@ angular.module("../templates/chooser.dropdown.html", []).run(["$templateCache", 
     "</ul>");
 }]);
 
-angular.module("../templates/chooser.multiple.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("../templates/chooser.multiple.html",
+angular.module("templates/chooser.multiple.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/chooser.multiple.html",
     "<div class=\"chooser chooser-multiple\">\n" +
     "	<div class=\"chooser-chosens\" ng-click=\"openMenu($event)\">\n" +
     "		<div class=\"chooser-chosen\" ng-repeat=\"item in model\">\n" +
@@ -328,8 +330,8 @@ angular.module("../templates/chooser.multiple.html", []).run(["$templateCache", 
     "</div>");
 }]);
 
-angular.module("../templates/chooser.single.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("../templates/chooser.single.tpl.html",
+angular.module("templates/chooser.single.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/chooser.single.tpl.html",
     "<div class=\"chooser chooser-single\">\n" +
     "	<button type=\"button\" class=\"chooser-toggle\" ng-click=\"openMenu($event)\">\n" +
     "		<span class=\"chosen-text\"></span>\n" +
@@ -341,8 +343,8 @@ angular.module("../templates/chooser.single.tpl.html", []).run(["$templateCache"
     "</div>");
 }]);
 
-angular.module("../templates/chooser.tags.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("../templates/chooser.tags.tpl.html",
+angular.module("templates/chooser.tags.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/chooser.tags.tpl.html",
     "<div class=\"chooser chooser-multiple chooser-tags\">\n" +
     "	<div class=\"chooser-chosens\" ng-click=\"focusInput($event)\">\n" +
     "		<div class=\"chooser-chosen\" ng-repeat=\"item in model\">\n" +
