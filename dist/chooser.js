@@ -379,12 +379,15 @@ angular.module("templates/chooser.multiple.html", []).run(["$templateCache", fun
     "<div class=\"chooser chooser-multiple\">\n" +
     "	<div class=\"chooser-chosens\" ng-click=\"openMenu($event)\">\n" +
     "		<div class=\"chooser-chosen\" ng-repeat=\"item in selectedItems\" ng-class=\"{invalid: item._invalid}\">\n" +
-    "			{{ item | chooserLabelFilter:labelKey }} <a class=\"chooser-remove-link\" href ng-click=\"removeOption($event, item)\"><span class=\"glyphicon glyphicon-remove\"></span></a>\n" +
+    "			{{ item | chooserLabelFilter:labelKey }}\n" +
+    "			<a class=\"chooser-remove-link\" href ng-click=\"removeOption($event, item)\">\n" +
+    "				<i class=\"chooser-remove-icon\"></i>\n" +
+    "			</a>\n" +
     "		</div>\n" +
     "		<div class=\"chooser-chosen-add-container\">\n" +
     "			<div class=\"chooser-chosen-add\">\n" +
     "				<span class=\"chooser-placeholder\" ng-bind=\"placeholder\" ng-show=\"placeholder\"></span>\n" +
-    "				<span class=\"glyphicon glyphicon-plus chooser-add-icon\" ng-show=\"items.length\"></span>\n" +
+    "				<i class=\"chooser-add-icon\"></i>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "	</div>\n" +
@@ -410,10 +413,16 @@ angular.module("templates/chooser.tags.tpl.html", []).run(["$templateCache", fun
     "<div class=\"chooser chooser-multiple chooser-tags\">\n" +
     "	<div class=\"chooser-chosens\" ng-click=\"focusInput($event)\">\n" +
     "		<div class=\"chooser-chosen\" ng-repeat=\"item in model\">\n" +
-    "			{{ item }} <a class=\"chooser-remove-link fa fa-times\" href ng-click=\"removeOption($event, item)\"></a>\n" +
+    "			{{ item }} <a class=\"chooser-remove chooser-remove-link\" href ng-click=\"removeOption($event, item)\">&times;</a>\n" +
     "		</div>\n" +
     "		<div class=\"chooser-chosen-add-container\">\n" +
     "			<div class=\"chooser-chosen-add fa fa-plus\"></div>\n" +
+    "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" />\n" +
+    "		</div>\n" +
+    "		<div class=\"chooser-chosen-add-container\">\n" +
+    "			<div class=\"chooser-chosen-add\">\n" +
+    "				<i class=\"chooser-add-icon\"></i>\n" +
+    "			</div>\n" +
     "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" />\n" +
     "		</div>\n" +
     "	</div>\n" +

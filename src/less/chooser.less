@@ -10,3 +10,27 @@
     box-sizing: border-box;
   }
 }
+
+.chooser-remove-icon,
+.chooser-add-icon {
+  position: relative;
+  display: inline-block;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4em;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.chooser-remove-icon {
+  &:before {
+    content: '\00d7';
+  }
+}
+
+.chooser-add-icon {
+  &:before {
+    content: '+';
+  }
+}

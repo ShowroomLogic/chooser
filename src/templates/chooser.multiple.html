@@ -1,12 +1,15 @@
 <div class="chooser chooser-multiple">
 	<div class="chooser-chosens" ng-click="openMenu($event)">
 		<div class="chooser-chosen" ng-repeat="item in selectedItems" ng-class="{invalid: item._invalid}">
-			{{ item | chooserLabelFilter:labelKey }} <a class="chooser-remove-link" href ng-click="removeOption($event, item)"><span class="glyphicon glyphicon-remove"></span></a>
+			{{ item | chooserLabelFilter:labelKey }}
+			<a class="chooser-remove-link" href ng-click="removeOption($event, item)">
+				<i class="chooser-remove-icon"></i>
+			</a>
 		</div>
 		<div class="chooser-chosen-add-container">
 			<div class="chooser-chosen-add">
 				<span class="chooser-placeholder" ng-bind="placeholder" ng-show="placeholder"></span>
-				<span class="glyphicon glyphicon-plus chooser-add-icon" ng-show="items.length"></span>
+				<i class="chooser-add-icon"></i>
 			</div>
 		</div>
 	</div>

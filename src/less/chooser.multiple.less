@@ -34,8 +34,7 @@
 		color: #ffffff;
 		margin-right: 5px;
 		margin-bottom: 5px;
-		-webkit-transition: 0.25s linear;
-		transition: 0.25s linear;
+    #chooser > .transition(~"all 0.25s linear");
 
 		a.chooser-remove-link {
 			position: absolute;
@@ -75,8 +74,11 @@
 		&.invalid {
 			&:hover {
 				background: transparent;
+        padding-left: 13px;
+        padding-right: 23px;
+
 				a.chooser-remove-link {
-					padding: 2px 2px;
+					top: -1px;
 					color: #D66;
 				}
 			}
@@ -91,21 +93,22 @@
 	}
 
 	.chooser-chosen-add {
+    position: relative;
+    top: 2px;
 		display: inline-block;
 		cursor: pointer;
-		padding: 7px 9px;
+		padding: 6px 9px 4px;
 		background: #cccccc;
 		border-radius: 3px;
 		color: #ffffff;
-		-webkit-transition: 0.25s linear;
-		transition: 0.25s linear;
+    #chooser > .transition(~"all 0.25s linear");
 
 		&:hover {
 			background: @chooser-accent-color;
 		}
 
 		.chooser-placeholder {
-			//margin-right: 5px;
+			vertical-align: text-bottom;
 		}
 	}
 

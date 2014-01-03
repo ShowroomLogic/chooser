@@ -123,8 +123,8 @@
   cursor: pointer;
   background: #34495e;
   border-radius: 3px;
-  -webkit-transition: 0.25s linear;
-          transition: 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+          transition: all 0.25s linear;
 }
 
 .chooser-multiple .chooser-chosen a.chooser-remove-link {
@@ -163,11 +163,13 @@
 }
 
 .chooser-multiple .chooser-chosen:hover.invalid:hover {
+  padding-right: 23px;
+  padding-left: 13px;
   background: transparent;
 }
 
 .chooser-multiple .chooser-chosen:hover.invalid:hover a.chooser-remove-link {
-  padding: 2px 2px;
+  top: -1px;
   color: #D66;
 }
 
@@ -179,18 +181,24 @@
 }
 
 .chooser-multiple .chooser-chosen-add {
+  position: relative;
+  top: 2px;
   display: inline-block;
-  padding: 7px 9px;
+  padding: 6px 9px 4px;
   color: #ffffff;
   cursor: pointer;
   background: #cccccc;
   border-radius: 3px;
-  -webkit-transition: 0.25s linear;
-          transition: 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+          transition: all 0.25s linear;
 }
 
 .chooser-multiple .chooser-chosen-add:hover {
   background: #34495e;
+}
+
+.chooser-multiple .chooser-chosen-add .chooser-placeholder {
+  vertical-align: text-bottom;
 }
 
 .chooser-multiple[disabled="disabled"] .chooser-chosens {
@@ -313,4 +321,24 @@
 .chooser,
 .chooser * {
   box-sizing: border-box;
+}
+
+.chooser-remove-icon,
+.chooser-add-icon {
+  position: relative;
+  display: inline-block;
+  font-size: 1.4em;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.chooser-remove-icon:before {
+  content: '\00d7';
+}
+
+.chooser-add-icon:before {
+  content: '+';
 }

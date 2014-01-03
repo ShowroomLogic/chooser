@@ -1,10 +1,16 @@
 <div class="chooser chooser-multiple chooser-tags">
 	<div class="chooser-chosens" ng-click="focusInput($event)">
 		<div class="chooser-chosen" ng-repeat="item in model">
-			{{ item }} <a class="chooser-remove-link fa fa-times" href ng-click="removeOption($event, item)"></a>
+			{{ item }} <a class="chooser-remove chooser-remove-link" href ng-click="removeOption($event, item)">&times;</a>
 		</div>
 		<div class="chooser-chosen-add-container">
 			<div class="chooser-chosen-add fa fa-plus"></div>
+			<input type="text" ng-model="newTag" size="{{ newTag.length || '1' }}" />
+		</div>
+		<div class="chooser-chosen-add-container">
+			<div class="chooser-chosen-add">
+				<i class="chooser-add-icon"></i>
+			</div>
 			<input type="text" ng-model="newTag" size="{{ newTag.length || '1' }}" />
 		</div>
 	</div>
