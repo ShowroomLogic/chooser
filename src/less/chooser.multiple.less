@@ -39,7 +39,7 @@
 
 		a.chooser-remove-link {
 			position: absolute;
-			top: 0;
+			top: 1px;
 			right: 0;
 			bottom: 0;
 			width: 100%;
@@ -53,6 +53,13 @@
 			display: none;
 			line-height: 150%;
 		}
+
+		&.invalid {
+			border: 2px solid #D66;
+			padding: 4px 18px;
+			color: #D66;
+			background: transparent;
+		}
 	}
 
 	.chooser-chosen:hover {
@@ -63,6 +70,16 @@
 		a.chooser-remove-link {
 			opacity: 1;
 			display: block;
+		}
+
+		&.invalid {
+			&:hover {
+				background: transparent;
+				a.chooser-remove-link {
+					padding: 2px 2px;
+					color: #D66;
+				}
+			}
 		}
 	}
 
@@ -77,8 +94,6 @@
 		display: inline-block;
 		cursor: pointer;
 		padding: 7px 9px;
-		font-size: 18px;
-		vertical-align: middle;
 		background: #cccccc;
 		border-radius: 3px;
 		color: #ffffff;
@@ -87,6 +102,23 @@
 
 		&:hover {
 			background: @chooser-accent-color;
+		}
+
+		.chooser-placeholder {
+			//margin-right: 5px;
+		}
+	}
+
+	&[disabled="disabled"] {
+		.chooser-chosens {
+			border-color: #DDD;
+			background-color: #F3F3F3;
+		}
+		.chooser-chosen-add {
+			background: #DDD;
+			&:hover {
+				background: #DDD;
+			}
 		}
 	}
 

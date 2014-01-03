@@ -36,8 +36,8 @@ angular.module('chooser.dropdown', []).directive('chooserDropdown', [
         }
         var filterItems = function () {
           var filteredItems = $filter('filter')(scope.items, scope.$search);
-          if (angular.isArray(scope.model)) {
-            filteredItems = _.difference(scope.items, scope.model);
+          if (angular.isArray(scope.selectedItems)) {
+            filteredItems = _.difference(filteredItems, scope.selectedItems);
           }
           scope.filteredItems = filteredItems;
         };
@@ -203,30 +203,89 @@ angular.module('chooser.multiple', ['chooser.dropdown']).directive('chooserMulti
   'use strict';
   return {
     restrict: 'E',
+    replace: true,
     templateUrl: 'templates/chooser.multiple.html',
     scope: {
       labelKey: '@',
+      valueKey: '@',
       items: '=options',
       model: '=ngModel',
-      placeholder: '@placeholder'
+      placeholder: '=placeholder'
     },
     controller: [
       '$scope',
       function ($scope) {
         this.chooseOption = function (option) {
-          $scope.model = angular.isArray($scope.model) ? $scope.model.concat([option]) : [option];
+          $scope.selectedItems.push(option);
+          if (!$scope.valueKey) {
+            $scope.model = angular.isArray($scope.model) ? $scope.model.concat([option]) : [option];
+          } else {
+            $scope.model = angular.isArray($scope.model) ? $scope.model.concat([option[$scope.valueKey]]) : [option[$scope.valueKey]];
+          }
         };
       }
     ],
     link: function (scope) {
+      scope.map = {};
+      scope.selectedItems = [];
+      scope.$watch('model', function (model) {
+        var _selectedItems = [];
+        if (angular.isArray(model)) {
+          for (var i = 0; i < model.length; i++) {
+            var item = !scope.valueKey ? model : scope.map[model[i]];
+            if (item) {
+              _selectedItems.push(item);
+            } else {
+              if (!scope.labelKey) {
+                _selectedItems.push(model[i]);
+              } else if (!scope.valueKey) {
+                _selectedItems.push(model[i]);
+              } else {
+                var dummyItem = {};
+                dummyItem[scope.labelKey] = 'Invalid Option';
+                dummyItem[scope.valueKey] = model[i];
+                dummyItem['_invalid'] = true;
+                _selectedItems.push(dummyItem);
+              }
+            }
+          }
+        }
+        scope.selectedItems = _selectedItems;
+      });
+      scope.$watch('placeholder', function (model) {
+      });
+      scope.$watch('items', function (items) {
+        scope.map = {};
+        if (scope.valueKey && items) {
+          for (var i = 0; i < items.length; i++) {
+            scope.map[items[i][scope.valueKey]] = items[i];
+          }
+        }
+        var _selectedItems = [];
+        if (angular.isArray(scope.model)) {
+          for (var i = 0; i < scope.model.length; i++) {
+            _selectedItems.push(!scope.valueKey ? scope.model : scope.map[scope.model[i]]);
+          }
+        }
+        scope.selectedItems = _selectedItems;
+      });
       scope.removeOption = function (event, option) {
         if (event) {
           event.preventDefault();
           event.stopPropagation();
         }
-        var index = scope.model.indexOf(option);
-        if (index !== -1) {
-          scope.model.splice(index, 1);
+        console.log(option);
+        var itemIndex = scope.selectedItems.indexOf(option);
+        if (itemIndex !== -1) {
+          scope.selectedItems.splice(itemIndex, 1);
+        }
+        if (!scope.valueKey) {
+          var modelIndex = scope.model.indexOf(option);
+        } else {
+          var modelIndex = scope.model.indexOf(option[scope.valueKey]);
+        }
+        if (modelIndex !== -1) {
+          scope.model.splice(modelIndex, 1);
         }
       };
     }
@@ -319,11 +378,14 @@ angular.module("templates/chooser.multiple.html", []).run(["$templateCache", fun
   $templateCache.put("templates/chooser.multiple.html",
     "<div class=\"chooser chooser-multiple\">\n" +
     "	<div class=\"chooser-chosens\" ng-click=\"openMenu($event)\">\n" +
-    "		<div class=\"chooser-chosen\" ng-repeat=\"item in model\">\n" +
-    "			{{ item | chooserLabelFilter:labelKey }} <a class=\"chooser-remove-link fa fa-times\" href ng-click=\"removeOption($event, item)\"></a>\n" +
+    "		<div class=\"chooser-chosen\" ng-repeat=\"item in selectedItems\" ng-class=\"{invalid: item._invalid}\">\n" +
+    "			{{ item | chooserLabelFilter:labelKey }} <a class=\"chooser-remove-link\" href ng-click=\"removeOption($event, item)\"><span class=\"glyphicon glyphicon-remove\"></span></a>\n" +
     "		</div>\n" +
     "		<div class=\"chooser-chosen-add-container\">\n" +
-    "			<div class=\"chooser-chosen-add fa fa-plus\"></div>\n" +
+    "			<div class=\"chooser-chosen-add\">\n" +
+    "				<span class=\"chooser-placeholder\" ng-bind=\"placeholder\" ng-show=\"placeholder\"></span>\n" +
+    "				<span class=\"glyphicon glyphicon-plus chooser-add-icon\" ng-show=\"items.length\"></span>\n" +
+    "			</div>\n" +
     "		</div>\n" +
     "	</div>\n" +
     "	<chooser-dropdown></chooser-dropdown>\n" +

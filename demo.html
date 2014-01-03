@@ -57,6 +57,30 @@
         </div>
       </div>
 
+      <div class="page-header">
+        <h3>Multiple Value</h3>
+      </div>
+      <div class="row" ng-controller="multipleAdvancedCtrl">
+        <div class="col-md-4">
+          <chooser-multiple ng-model="model" options="options" ng-class="{invalid:!isValid}" ng-disabled="options==null" placeholder="placeholder" label-key="label" value-key="value"></chooser-multiple>
+          <div class="btn-group-vertical" style="margin: 5px;">
+            <button class="btn btn-primary" ng-click="options = items">Load Options</button>
+            <button class="btn btn-primary" ng-click="options = null">options = null</button>
+            <button class="btn btn-primary" ng-click="options = []">options = []</button>
+            <button class="btn btn-info" ng-click="model = [4]">model = [4]</button>
+            <button class="btn btn-info" ng-click="model = [1, 4]">model = [1, 4]</button>
+            <button class="btn btn-info" ng-click="model = [4, 7]">model = [4, 7]</button>
+            <button class="btn btn-info" ng-click="model = undefined">model = undefined</button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <pre>options = {{options|json}}</pre>
+        </div>
+        <div class="col-md-4">
+          <pre>model = {{model|json}}</pre>
+        </div>
+      </div>
+
     </div>
   </body>
 </html>

@@ -38,8 +38,8 @@ angular.module('chooser.dropdown', [
 			var filterItems = function() {
 				var filteredItems = $filter('filter')(scope.items, scope.$search);
 
-				if (angular.isArray(scope.model)) {
-					filteredItems = _.difference(scope.items, scope.model);
+				if (angular.isArray(scope.selectedItems)) {
+					filteredItems = _.difference(filteredItems, scope.selectedItems);
 				}
 				scope.filteredItems = filteredItems;
 			};
@@ -236,29 +236,101 @@ angular.module('chooser.multiple', [
 
 	return {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'templates/chooser.multiple.html',
 		scope: {
 			labelKey: '@',
+			valueKey: '@',
 			items: '=options',
 			model: '=ngModel',
-			placeholder: '@placeholder'
+			placeholder: '=placeholder'
 		},
 		controller: function($scope) {
+
 			this.chooseOption = function(option) {
-				$scope.model = angular.isArray($scope.model) ?
-						$scope.model.concat([option]) : [option];
+				$scope.selectedItems.push(option);
+				if (!$scope.valueKey) {
+					$scope.model = angular.isArray($scope.model) ? $scope.model.concat([option]) : [option];
+				} else {
+					$scope.model = angular.isArray($scope.model) ? $scope.model.concat([option[$scope.valueKey]]) : [option[$scope.valueKey]];
+				}
 			};
+
 		},
 		link: function(scope) {
+			
+			scope.map = {};
+			scope.selectedItems = [];
+
+			scope.$watch('model', function(model) {
+				var _selectedItems = [];
+				
+				if (angular.isArray(model)) {
+					for (var i=0; i < model.length; i++) {
+						var item = !scope.valueKey ? model : scope.map[model[i]];
+						if (item) {
+							_selectedItems.push(item);
+						} else {
+							// Create a dummy object for missing values
+							if (!scope.labelKey) {
+								_selectedItems.push(model[i]);
+							} else if (!scope.valueKey) {
+								_selectedItems.push(model[i]);
+							} else {
+								var dummyItem = {};
+								dummyItem[scope.labelKey] = "Invalid Option";
+								dummyItem[scope.valueKey] = model[i];
+								dummyItem['_invalid'] = true;
+								_selectedItems.push(dummyItem);
+							}
+						}
+					}
+				}
+				scope.selectedItems = _selectedItems;
+			});
+
+			scope.$watch('placeholder', function(model) {
+			});
+
+			scope.$watch('items', function(items) {
+				scope.map = {};
+				if (scope.valueKey && items) {
+					for (var i = 0; i < items.length; i++) {
+						scope.map[items[i][scope.valueKey]] = items[i];
+					}
+				}
+
+				var _selectedItems = [];
+				if (angular.isArray(scope.model)) {
+					for (var i=0; i < scope.model.length; i++) {
+						_selectedItems.push(!scope.valueKey ? scope.model : scope.map[scope.model[i]]);
+					}
+				}
+				scope.selectedItems = _selectedItems;
+
+				//updateText();
+			});
+
 			scope.removeOption = function(event, option) {
 				if (event) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 
-				var index = scope.model.indexOf(option);
-				if (index !== -1) {
-					scope.model.splice(index, 1);
+				console.log(option);
+
+				var itemIndex = scope.selectedItems.indexOf(option);
+				if (itemIndex !== -1) {
+					scope.selectedItems.splice(itemIndex, 1);
+				}
+
+				if (!scope.valueKey) {
+					var modelIndex = scope.model.indexOf(option);
+				} else {
+					var modelIndex = scope.model.indexOf(option[scope.valueKey]);
+				}
+				if (modelIndex !== -1) {
+					scope.model.splice(modelIndex, 1);
 				}
 			};
 		}

@@ -129,7 +129,7 @@
 
 .chooser-multiple .chooser-chosen a.chooser-remove-link {
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 0;
   bottom: 0;
   z-index: 2;
@@ -144,6 +144,13 @@
   opacity: 0;
 }
 
+.chooser-multiple .chooser-chosen.invalid {
+  padding: 4px 18px;
+  color: #D66;
+  background: transparent;
+  border: 2px solid #D66;
+}
+
 .chooser-multiple .chooser-chosen:hover {
   padding-right: 24px;
   padding-left: 16px;
@@ -153,6 +160,15 @@
 .chooser-multiple .chooser-chosen:hover a.chooser-remove-link {
   display: block;
   opacity: 1;
+}
+
+.chooser-multiple .chooser-chosen:hover.invalid:hover {
+  background: transparent;
+}
+
+.chooser-multiple .chooser-chosen:hover.invalid:hover a.chooser-remove-link {
+  padding: 2px 2px;
+  color: #D66;
 }
 
 .chooser-multiple .chooser-chosen-add-container {
@@ -165,9 +181,7 @@
 .chooser-multiple .chooser-chosen-add {
   display: inline-block;
   padding: 7px 9px;
-  font-size: 18px;
   color: #ffffff;
-  vertical-align: middle;
   cursor: pointer;
   background: #cccccc;
   border-radius: 3px;
@@ -177,6 +191,19 @@
 
 .chooser-multiple .chooser-chosen-add:hover {
   background: #34495e;
+}
+
+.chooser-multiple[disabled="disabled"] .chooser-chosens {
+  background-color: #F3F3F3;
+  border-color: #DDD;
+}
+
+.chooser-multiple[disabled="disabled"] .chooser-chosen-add {
+  background: #DDD;
+}
+
+.chooser-multiple[disabled="disabled"] .chooser-chosen-add:hover {
+  background: #DDD;
 }
 
 .chooser-multiple.open .chooser-chosens {
