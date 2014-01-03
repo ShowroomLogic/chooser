@@ -1,6 +1,6 @@
 {
   "name": "chooser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A completely angular-ized port of the popular Select2 jQuery plugin.",
   "main": "src/chooser.js",
   "scripts": {

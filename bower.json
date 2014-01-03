@@ -1,7 +1,7 @@
 {
   "name": "chooser",
   "main": "src/chooser.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "authors": [
     "Joe Duchnowski",
     "Chris Brantley"
