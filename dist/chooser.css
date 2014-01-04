@@ -182,9 +182,8 @@
 
 .chooser-multiple .chooser-chosen-add {
   position: relative;
-  top: 2px;
   display: inline-block;
-  padding: 6px 9px 4px;
+  padding: 6px 9px;
   color: #ffffff;
   cursor: pointer;
   background: #cccccc;
@@ -198,7 +197,7 @@
 }
 
 .chooser-multiple .chooser-chosen-add .chooser-placeholder {
-  vertical-align: text-bottom;
+  vertical-align: baseline;
 }
 
 .chooser-multiple[disabled="disabled"] .chooser-chosens {
@@ -331,7 +330,8 @@
   -webkit-font-smoothing: antialiased;
   font-style: normal;
   font-weight: bold;
-  line-height: 1;
+  line-height: .75;
+  vertical-align: baseline;
   -moz-osx-font-smoothing: grayscale;
 }
 

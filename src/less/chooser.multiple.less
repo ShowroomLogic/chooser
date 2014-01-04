@@ -93,22 +93,21 @@
 	}
 
 	.chooser-chosen-add {
-    position: relative;
-    top: 2px;
-		display: inline-block;
+    	position: relative;
+    	display: inline-block;
 		cursor: pointer;
-		padding: 6px 9px 4px;
+		padding: 6px 9px;
 		background: #cccccc;
 		border-radius: 3px;
 		color: #ffffff;
-    #chooser > .transition(~"all 0.25s linear");
+    	#chooser > .transition(~"all 0.25s linear");
 
 		&:hover {
 			background: @chooser-accent-color;
 		}
 
 		.chooser-placeholder {
-			vertical-align: text-bottom;
+			vertical-align: baseline;
 		}
 	}
 
