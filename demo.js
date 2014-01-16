@@ -91,3 +91,9 @@ chooserDemo.controller('multipleAdvancedCtrl', function($scope, $timeout) {
 	});
 	
 });
+
+chooserDemo.controller('tagsCtrl', function ($scope) {
+	
+	
+
+});

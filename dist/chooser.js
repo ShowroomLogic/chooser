@@ -252,8 +252,6 @@ angular.module('chooser.multiple', ['chooser.dropdown']).directive('chooserMulti
         }
         scope.selectedItems = _selectedItems;
       });
-      scope.$watch('placeholder', function (model) {
-      });
       scope.$watch('items', function (items) {
         scope.map = {};
         if (scope.valueKey && items) {
@@ -416,13 +414,6 @@ angular.module("templates/chooser.tags.tpl.html", []).run(["$templateCache", fun
     "			{{ item }} <a class=\"chooser-remove chooser-remove-link\" href ng-click=\"removeOption($event, item)\">&times;</a>\n" +
     "		</div>\n" +
     "		<div class=\"chooser-chosen-add-container\">\n" +
-    "			<div class=\"chooser-chosen-add fa fa-plus\"></div>\n" +
-    "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" />\n" +
-    "		</div>\n" +
-    "		<div class=\"chooser-chosen-add-container\">\n" +
-    "			<div class=\"chooser-chosen-add\">\n" +
-    "				<i class=\"chooser-add-icon\"></i>\n" +
-    "			</div>\n" +
     "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" />\n" +
     "		</div>\n" +
     "	</div>\n" +

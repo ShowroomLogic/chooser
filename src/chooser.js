@@ -271,12 +271,12 @@ angular.module('chooser.multiple', [
 						if (item) {
 							_selectedItems.push(item);
 						} else {
-							// Create a dummy object for missing values
 							if (!scope.labelKey) {
 								_selectedItems.push(model[i]);
 							} else if (!scope.valueKey) {
 								_selectedItems.push(model[i]);
 							} else {
+								// Create a dummy object for missing values
 								var dummyItem = {};
 								dummyItem[scope.labelKey] = "Invalid Option";
 								dummyItem[scope.valueKey] = model[i];
@@ -287,9 +287,6 @@ angular.module('chooser.multiple', [
 					}
 				}
 				scope.selectedItems = _selectedItems;
-			});
-
-			scope.$watch('placeholder', function(model) {
 			});
 
 			scope.$watch('items', function(items) {
@@ -307,8 +304,6 @@ angular.module('chooser.multiple', [
 					}
 				}
 				scope.selectedItems = _selectedItems;
-
-				//updateText();
 			});
 
 			scope.removeOption = function(event, option) {

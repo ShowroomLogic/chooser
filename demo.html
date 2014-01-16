@@ -81,6 +81,20 @@
         </div>
       </div>
 
+      <div class="page-header">
+        <h3>Tags</h3>
+      </div>
+      <div class="row" ng-controller="tagsCtrl">
+        <div class="col-md-4">
+          <chooser-tags ng-model="model" placeholder="Add Tags"></chooser-tags>
+        </div>
+        <div class="col-md-8">
+          <pre>model = {{model|json}}</pre>
+        </div>
+      </div>
+
+      <div style="height: 500px"></div>
+
     </div>
   </body>
 </html>
