@@ -334,7 +334,7 @@ angular.module('chooser.multiple', [
 
 angular.module('chooser.tags', [
 
-]).directive('chooserTags', function() {
+]).directive('chooserTags', function($timeout) {
 	'use strict';
 
 	return {
@@ -344,6 +344,7 @@ angular.module('chooser.tags', [
 		scope: {
 			items: '=options',
 			model: '=ngModel',
+			change: '&ngChange',
 			placeholder: '@placeholder'
 		},
 		controller: function($scope) {
@@ -352,9 +353,11 @@ angular.module('chooser.tags', [
 					// Don't allow duplicates
 					if ($scope.model.indexOf(option) === -1) {
 						$scope.model = $scope.model.concat([option]);
+						$timeout(function() { $scope.change() });
 					}
 				} else {
 					$scope.model = [option];
+					$timeout(function() { $scope.change() });
 				}
 			};
 		},
@@ -399,6 +402,7 @@ angular.module('chooser.tags', [
 				var index = scope.model.indexOf(option);
 				if (index !== -1) {
 					scope.model.splice(index, 1);
+					$timeout(function() { scope.change() });
 				}
 			};
 		}

@@ -89,11 +89,10 @@
 }
 
 .chooser-multiple .chooser-chosens {
-  width: 280px;
-  padding: 6px 6px 1px;
+  padding: 4px 4px 0;
   font-size: 0;
   background: #ffffff;
-  border: 2px solid #34495e;
+  border: 1px solid #cccccc;
   border-radius: 4px;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -103,25 +102,25 @@
 }
 
 .chooser-multiple .chooser-chosens:hover {
-  border-color: #3d566e;
+  border-color: #d9d9d9;
 }
 
 .chooser-multiple .chooser-chosens:focus,
 .chooser-multiple .chooser-chosens:active {
   background: #dddddd;
-  border-color: #2b3c4e;
+  border-color: #bfbfbf;
 }
 
 .chooser-multiple .chooser-chosen {
   position: relative;
   display: inline-block;
-  padding: 6px 20px;
+  padding: 3px 15px;
   margin-right: 5px;
   margin-bottom: 5px;
   font-size: 14px;
   color: #ffffff;
   cursor: pointer;
-  background: #34495e;
+  background: #cccccc;
   border-radius: 3px;
   -webkit-transition: all 0.25s linear;
           transition: all 0.25s linear;
@@ -129,15 +128,13 @@
 
 .chooser-multiple .chooser-chosen a.chooser-remove-link {
   position: absolute;
-  top: 1px;
-  right: 0;
+  top: 2px;
+  right: 8px;
   bottom: 0;
   z-index: 2;
   display: none;
   width: 100%;
-  padding: 7px 7px 5px 0;
-  font-size: 12px;
-  line-height: 150%;
+  font-size: 14px;
   color: #ffffff;
   text-align: right;
   text-decoration: none;
@@ -154,7 +151,7 @@
 .chooser-multiple .chooser-chosen:hover {
   padding-right: 24px;
   padding-left: 16px;
-  background: #222f3d;
+  background: #b3b3b3;
 }
 
 .chooser-multiple .chooser-chosen:hover a.chooser-remove-link {
@@ -175,7 +172,7 @@
 
 .chooser-multiple .chooser-chosen-add-container {
   display: inline-block;
-  padding: 0;
+  padding: 2px 0;
   margin-bottom: 5px;
   font-size: 14px;
 }
@@ -193,7 +190,7 @@
 }
 
 .chooser-multiple .chooser-chosen-add:hover {
-  background: #34495e;
+  background: #cccccc;
 }
 
 .chooser-multiple .chooser-chosen-add .chooser-placeholder {
@@ -215,11 +212,11 @@
 
 .chooser-multiple.open .chooser-chosens {
   background: #dddddd;
-  border-color: #2b3c4e;
+  border-color: #bfbfbf;
 }
 
 .chooser-multiple.open .chooser-chosen-add {
-  background: #34495e;
+  background: #cccccc;
 }
 
 .chooser-tags .chooser-chosen-add-container input {

@@ -289,72 +289,85 @@ angular.module('chooser.multiple', ['chooser.dropdown']).directive('chooserMulti
     }
   };
 });
-angular.module('chooser.tags', []).directive('chooserTags', function () {
-  'use strict';
-  return {
-    restrict: 'E',
-    require: 'chooserTags',
-    templateUrl: 'templates/chooser.tags.tpl.html',
-    scope: {
-      items: '=options',
-      model: '=ngModel',
-      placeholder: '@placeholder'
-    },
-    controller: [
-      '$scope',
-      function ($scope) {
-        this.chooseOption = function (option) {
-          if (angular.isArray($scope.model)) {
-            if ($scope.model.indexOf(option) === -1) {
-              $scope.model = $scope.model.concat([option]);
+angular.module('chooser.tags', []).directive('chooserTags', [
+  '$timeout',
+  function ($timeout) {
+    'use strict';
+    return {
+      restrict: 'E',
+      require: 'chooserTags',
+      templateUrl: 'templates/chooser.tags.tpl.html',
+      scope: {
+        items: '=options',
+        model: '=ngModel',
+        change: '&ngChange',
+        placeholder: '@placeholder'
+      },
+      controller: [
+        '$scope',
+        function ($scope) {
+          this.chooseOption = function (option) {
+            if (angular.isArray($scope.model)) {
+              if ($scope.model.indexOf(option) === -1) {
+                $scope.model = $scope.model.concat([option]);
+                $timeout(function () {
+                  $scope.change();
+                });
+              }
+            } else {
+              $scope.model = [option];
+              $timeout(function () {
+                $scope.change();
+              });
             }
-          } else {
-            $scope.model = [option];
+          };
+        }
+      ],
+      link: function (scope, element, attrs, tagsCtrl) {
+        var input = element.find('input').eq(0);
+        var keyboardListener = function (event) {
+          switch (event.which) {
+          case 13:
+            scope.$apply(function () {
+              if (input.val().length) {
+                tagsCtrl.chooseOption(input.val());
+              }
+              scope.newTag = '';
+            });
+            break;
+          case 27:
+            input.blur();
+            break;
+          }
+        };
+        var focusInput = function () {
+          input.bind('keydown', keyboardListener);
+          input.bind('blur', inputBlurred);
+          input[0].focus();
+        };
+        scope.focusInput = focusInput;
+        var inputBlurred = function () {
+          scope.newTag = '';
+          input.unbind('keydown', keyboardListener);
+          input.unbind('blur', inputBlurred);
+        };
+        scope.removeOption = function (event, option) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          var index = scope.model.indexOf(option);
+          if (index !== -1) {
+            scope.model.splice(index, 1);
+            $timeout(function () {
+              scope.change();
+            });
           }
         };
       }
-    ],
-    link: function (scope, element, attrs, tagsCtrl) {
-      var input = element.find('input').eq(0);
-      var keyboardListener = function (event) {
-        switch (event.which) {
-        case 13:
-          scope.$apply(function () {
-            if (input.val().length) {
-              tagsCtrl.chooseOption(input.val());
-            }
-            scope.newTag = '';
-          });
-          break;
-        case 27:
-          input.blur();
-          break;
-        }
-      };
-      var focusInput = function () {
-        input.bind('keydown', keyboardListener);
-        input.bind('blur', inputBlurred);
-        input[0].focus();
-      };
-      scope.focusInput = focusInput;
-      var inputBlurred = function () {
-        scope.newTag = '';
-        input.unbind('keydown', keyboardListener);
-        input.unbind('blur', inputBlurred);
-      };
-      scope.removeOption = function (event, option) {
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        var index = scope.model.indexOf(option);
-        if (index !== -1) {
-          scope.model.splice(index, 1);
-        }
-      };
-    }
-  };
-});
+    };
+  }
+]);
 angular.module('chooser.templates', ['templates/chooser.dropdown.html', 'templates/chooser.multiple.html', 'templates/chooser.single.tpl.html', 'templates/chooser.tags.tpl.html']);
 
 angular.module("templates/chooser.dropdown.html", []).run(["$templateCache", function($templateCache) {
