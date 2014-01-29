@@ -27,10 +27,11 @@ angular.module('chooser.dropdown', [
 
 	return {
 		restrict: 'E',
-		require: ['?^chooser', '?^chooserMultiple', '?^chooserTags'],
+		require: ['?^chooser', '?^chooserMultiple'],
 		templateUrl: 'templates/chooser.dropdown.html',
 		link: function(scope, element, attrs, ctrls) {
-			var chooserCtrl = ctrls[0] || ctrls[1] || ctrls[2];
+			var chooserCtrl = ctrls[0] || ctrls[1];
+
 			if (!chooserCtrl) {
 				throw new Error('No controller was found to use for the chooser dropdown.');
 			}
@@ -92,11 +93,11 @@ angular.module('chooser.dropdown', [
 					wasOpen = chooserElement.hasClass('open'),
 					input = element.find('input').eq(0);
 
-				if (event.preventDefault) {
+				if (event && event.preventDefault) {
 					event.preventDefault();
 				}
 
-				if (event.stopPropagation) {
+				if (event && event.stopPropagation) {
 					event.stopPropagation();
 				}
 
@@ -332,36 +333,23 @@ angular.module('chooser.multiple', [
 	};
 });
 
-angular.module('chooser.tags', [
-
-]).directive('chooserTags', function($timeout) {
+angular.module('chooser.tags', []).directive('chooserTags', function($timeout, $filter) {
 	'use strict';
 
 	return {
 		restrict: 'E',
-		require: 'chooserTags',
+		replace: true,
 		templateUrl: 'templates/chooser.tags.tpl.html',
 		scope: {
-			items: '=options',
+			suggestCallback: '=',
 			model: '=ngModel',
 			change: '&ngChange',
 			placeholder: '@placeholder'
 		},
-		controller: function($scope) {
-			this.chooseOption = function(option) {
-				if (angular.isArray($scope.model)) {
-					// Don't allow duplicates
-					if ($scope.model.indexOf(option) === -1) {
-						$scope.model = $scope.model.concat([option]);
-						$timeout(function() { $scope.change() });
-					}
-				} else {
-					$scope.model = [option];
-					$timeout(function() { $scope.change() });
-				}
-			};
-		},
-		link: function(scope, element, attrs, tagsCtrl) {
+		link: function(scope, element, attrs) {
+
+			scope.filteredItems = [];
+
 			var input = element.find('input').eq(0);
 
 			var keyboardListener = function(event) {
@@ -369,7 +357,7 @@ angular.module('chooser.tags', [
 					case 13: // enter
 						scope.$apply(function() {
 							if (input.val().length) {
-								tagsCtrl.chooseOption(input.val());
+								scope.addOption(input.val());
 							}
 							scope.newTag = '';
 						});
@@ -380,17 +368,31 @@ angular.module('chooser.tags', [
 				}
 			};
 
-			var focusInput = function() {
+			scope.focusInput = function() {
+				element.addClass('open');
 				input.bind('keydown', keyboardListener);
 				input.bind('blur', inputBlurred);
 				input[0].focus();
 			};
-			scope.focusInput = focusInput;
 
 			var inputBlurred = function() {
 				scope.newTag = '';
 				input.unbind('keydown', keyboardListener);
 				input.unbind('blur', inputBlurred);
+			};
+
+			scope.addOption = function(option) {
+				console.log('choosing...');
+				if (angular.isArray(scope.model)) {
+					// Don't allow duplicates
+					if (scope.model.indexOf(option) === -1) {
+						scope.model = scope.model.concat([option]);
+						$timeout(function() { scope.change() });
+					}
+				} else {
+					scope.model = [option];
+					$timeout(function() { scope.change() });
+				}
 			};
 
 			scope.removeOption = function(event, option) {
@@ -405,6 +407,24 @@ angular.module('chooser.tags', [
 					$timeout(function() { scope.change() });
 				}
 			};
+
+			var setOptions = function(options) {
+				scope.options = options;
+			};
+
+			scope.matchingOptions = function() {
+				var matches = $filter('filter')(scope.options, scope.newTag);
+				if (angular.isArray(scope.model)) {
+					matches = _.difference(matches, scope.model);
+				}
+				return matches;
+			};
+
+			scope.$watch('newTag', function(newValue, oldValue) {
+				if (newValue === oldValue) { return; }
+				scope.suggestCallback(newValue, setOptions);
+			});
+
 		}
 	};
 });

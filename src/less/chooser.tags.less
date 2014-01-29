@@ -1,6 +1,7 @@
 @import "chooser.mixins.less";
 
 .chooser-tags {
+	@chooser-accent-color: #ccc;
 	.chooser-chosen-add-container {
 		input {
 			opacity: 0;
@@ -12,4 +13,15 @@
 			}
 		}
 	}
+
+	&.open {
+		.chooser-chosens {
+			border-color: @chooser-accent-color;
+			background: #fff;
+		}
+		.chooser-chosen-add {
+			background: #FFF;
+		}
+	}
+
 }

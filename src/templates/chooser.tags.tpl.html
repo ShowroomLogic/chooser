@@ -4,7 +4,12 @@
 			{{ item }} <a class="chooser-remove chooser-remove-link" href ng-click="removeOption($event, item)">&times;</a>
 		</div>
 		<div class="chooser-chosen-add-container">
-			<input type="text" ng-model="newTag" size="{{ newTag.length || '1' }}" />
+			<input type="text" ng-model="newTag" size="{{ newTag.length || '1' }}" ng-change="openMenu($event)" />
 		</div>
 	</div>
+	<ul class="chooser-dropdown" ng-show="matchingOptions().length && newTag.length">
+		<li ng-repeat="option in matchingOptions()" ng-mouseover="$parent.highlightedIndex = $index">
+			<a ng-class="{ highlight: highlightedIndex === $index }" href ng-click="addOption(option)" tabindex="-1">{{ option }}</a>
+		</li>
+	</ul>
 </div>

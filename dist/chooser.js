@@ -25,12 +25,11 @@ angular.module('chooser.dropdown', []).directive('chooserDropdown', [
       restrict: 'E',
       require: [
         '?^chooser',
-        '?^chooserMultiple',
-        '?^chooserTags'
+        '?^chooserMultiple'
       ],
       templateUrl: 'templates/chooser.dropdown.html',
       link: function (scope, element, attrs, ctrls) {
-        var chooserCtrl = ctrls[0] || ctrls[1] || ctrls[2];
+        var chooserCtrl = ctrls[0] || ctrls[1];
         if (!chooserCtrl) {
           throw new Error('No controller was found to use for the chooser dropdown.');
         }
@@ -78,10 +77,10 @@ angular.module('chooser.dropdown', []).directive('chooserDropdown', [
         scope.$on('$locationChangeStart', closeMenu);
         scope.openMenu = function (event) {
           var chooserElement = element.closest('.chooser'), wasOpen = chooserElement.hasClass('open'), input = element.find('input').eq(0);
-          if (event.preventDefault) {
+          if (event && event.preventDefault) {
             event.preventDefault();
           }
-          if (event.stopPropagation) {
+          if (event && event.stopPropagation) {
             event.stopPropagation();
           }
           if (wasOpen) {
@@ -291,46 +290,28 @@ angular.module('chooser.multiple', ['chooser.dropdown']).directive('chooserMulti
 });
 angular.module('chooser.tags', []).directive('chooserTags', [
   '$timeout',
-  function ($timeout) {
+  '$filter',
+  function ($timeout, $filter) {
     'use strict';
     return {
       restrict: 'E',
-      require: 'chooserTags',
+      replace: true,
       templateUrl: 'templates/chooser.tags.tpl.html',
       scope: {
-        items: '=options',
+        suggestCallback: '=',
         model: '=ngModel',
         change: '&ngChange',
         placeholder: '@placeholder'
       },
-      controller: [
-        '$scope',
-        function ($scope) {
-          this.chooseOption = function (option) {
-            if (angular.isArray($scope.model)) {
-              if ($scope.model.indexOf(option) === -1) {
-                $scope.model = $scope.model.concat([option]);
-                $timeout(function () {
-                  $scope.change();
-                });
-              }
-            } else {
-              $scope.model = [option];
-              $timeout(function () {
-                $scope.change();
-              });
-            }
-          };
-        }
-      ],
-      link: function (scope, element, attrs, tagsCtrl) {
+      link: function (scope, element, attrs) {
+        scope.filteredItems = [];
         var input = element.find('input').eq(0);
         var keyboardListener = function (event) {
           switch (event.which) {
           case 13:
             scope.$apply(function () {
               if (input.val().length) {
-                tagsCtrl.chooseOption(input.val());
+                scope.addOption(input.val());
               }
               scope.newTag = '';
             });
@@ -340,16 +321,32 @@ angular.module('chooser.tags', []).directive('chooserTags', [
             break;
           }
         };
-        var focusInput = function () {
+        scope.focusInput = function () {
+          element.addClass('open');
           input.bind('keydown', keyboardListener);
           input.bind('blur', inputBlurred);
           input[0].focus();
         };
-        scope.focusInput = focusInput;
         var inputBlurred = function () {
           scope.newTag = '';
           input.unbind('keydown', keyboardListener);
           input.unbind('blur', inputBlurred);
+        };
+        scope.addOption = function (option) {
+          console.log('choosing...');
+          if (angular.isArray(scope.model)) {
+            if (scope.model.indexOf(option) === -1) {
+              scope.model = scope.model.concat([option]);
+              $timeout(function () {
+                scope.change();
+              });
+            }
+          } else {
+            scope.model = [option];
+            $timeout(function () {
+              scope.change();
+            });
+          }
         };
         scope.removeOption = function (event, option) {
           if (event) {
@@ -364,6 +361,22 @@ angular.module('chooser.tags', []).directive('chooserTags', [
             });
           }
         };
+        var setOptions = function (options) {
+          scope.options = options;
+        };
+        scope.matchingOptions = function () {
+          var matches = $filter('filter')(scope.options, scope.newTag);
+          if (angular.isArray(scope.model)) {
+            matches = _.difference(matches, scope.model);
+          }
+          return matches;
+        };
+        scope.$watch('newTag', function (newValue, oldValue) {
+          if (newValue === oldValue) {
+            return;
+          }
+          scope.suggestCallback(newValue, setOptions);
+        });
       }
     };
   }
@@ -427,8 +440,13 @@ angular.module("templates/chooser.tags.tpl.html", []).run(["$templateCache", fun
     "			{{ item }} <a class=\"chooser-remove chooser-remove-link\" href ng-click=\"removeOption($event, item)\">&times;</a>\n" +
     "		</div>\n" +
     "		<div class=\"chooser-chosen-add-container\">\n" +
-    "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" />\n" +
+    "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" ng-change=\"openMenu($event)\" />\n" +
     "		</div>\n" +
     "	</div>\n" +
+    "	<ul class=\"chooser-dropdown\" ng-show=\"matchingOptions().length && newTag.length\">\n" +
+    "		<li ng-repeat=\"option in matchingOptions()\" ng-mouseover=\"$parent.highlightedIndex = $index\">\n" +
+    "			<a ng-class=\"{ highlight: highlightedIndex === $index }\" href ng-click=\"addOption(option)\" tabindex=\"-1\">{{ option }}</a>\n" +
+    "		</li>\n" +
+    "	</ul>\n" +
     "</div>");
 }]);
