@@ -229,6 +229,15 @@
   opacity: 1;
 }
 
+.chooser-tags.open .chooser-chosens {
+  background: #fff;
+  border-color: #cccccc;
+}
+
+.chooser-tags.open .chooser-chosen-add {
+  background: #FFF;
+}
+
 .chooser-dropdown {
   position: absolute;
   top: 100%;
