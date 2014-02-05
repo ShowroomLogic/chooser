@@ -38,7 +38,7 @@ angular.module('chooser.dropdown', []).directive('chooserDropdown', [
           if (angular.isArray(scope.selectedItems)) {
             filteredItems = _.difference(filteredItems, scope.selectedItems);
           }
-          scope.filteredItems = filteredItems;
+          scope.filteredItems = filteredItems.slice(0, 100);
         };
         scope.$watch('$search', filterItems);
         scope.$watch('model', filterItems, true);
@@ -385,17 +385,19 @@ angular.module('chooser.templates', ['templates/chooser.dropdown.html', 'templat
 
 angular.module("templates/chooser.dropdown.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("templates/chooser.dropdown.html",
-    "<ul class=\"chooser-dropdown\">\n" +
-    "	<li class=\"chooser-dropdown-search\">\n" +
+    "<div class=\"chooser-dropdown\">\n" +
+    "	<div class=\"chooser-dropdown-search\">\n" +
     "		<input type=\"text\" ng-model=\"$search\" ng-click=\"$event.stopPropagation();\" placeholder=\"Search\" />\n" +
-    "	</li>\n" +
-    "	<li ng-show=\"filteredItems.length\" ng-repeat=\"item in filteredItems\" ng-mouseover=\"$parent.highlightedIndex = $index\">\n" +
-    "		<a ng-class=\"{ highlight: highlightedIndex === $index }\" href ng-click=\"selectOption($event, item)\" tabindex=\"-1\">{{ item | chooserLabelFilter:labelKey }}</a>\n" +
-    "	</li>\n" +
-    "	<li ng-hide=\"filteredItems.length\" class=\"no-matches-found\">\n" +
-    "		<span>No Matches Found</span>\n" +
-    "	</li>\n" +
-    "</ul>");
+    "	</div>\n" +
+    "	<ul class=\"chooser-dropdown-list\">\n" +
+    "		<li ng-show=\"filteredItems.length\" ng-repeat=\"item in filteredItems\" ng-mouseover=\"$parent.highlightedIndex = $index\">\n" +
+    "			<a ng-class=\"{ highlight: highlightedIndex === $index }\" href ng-click=\"selectOption($event, item)\" tabindex=\"-1\">{{ item | chooserLabelFilter:labelKey }}</a>\n" +
+    "		</li>\n" +
+    "		<li ng-hide=\"filteredItems.length\" class=\"no-matches-found\">\n" +
+    "			<span>No Matches Found</span>\n" +
+    "		</li>\n" +
+    "	</ul>\n" +
+    "</div>");
 }]);
 
 angular.module("templates/chooser.multiple.html", []).run(["$templateCache", function($templateCache) {

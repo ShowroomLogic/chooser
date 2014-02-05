@@ -1,11 +1,13 @@
-<ul class="chooser-dropdown">
-	<li class="chooser-dropdown-search">
+<div class="chooser-dropdown">
+	<div class="chooser-dropdown-search">
 		<input type="text" ng-model="$search" ng-click="$event.stopPropagation();" placeholder="Search" />
-	</li>
-	<li ng-show="filteredItems.length" ng-repeat="item in filteredItems" ng-mouseover="$parent.highlightedIndex = $index">
-		<a ng-class="{ highlight: highlightedIndex === $index }" href ng-click="selectOption($event, item)" tabindex="-1">{{ item | chooserLabelFilter:labelKey }}</a>
-	</li>
-	<li ng-hide="filteredItems.length" class="no-matches-found">
-		<span>No Matches Found</span>
-	</li>
-</ul>
+	</div>
+	<ul class="chooser-dropdown-list">
+		<li ng-show="filteredItems.length" ng-repeat="item in filteredItems" ng-mouseover="$parent.highlightedIndex = $index">
+			<a ng-class="{ highlight: highlightedIndex === $index }" href ng-click="selectOption($event, item)" tabindex="-1">{{ item | chooserLabelFilter:labelKey }}</a>
+		</li>
+		<li ng-hide="filteredItems.length" class="no-matches-found">
+			<span>No Matches Found</span>
+		</li>
+	</ul>
+</div>

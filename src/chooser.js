@@ -42,7 +42,7 @@ angular.module('chooser.dropdown', [
 				if (angular.isArray(scope.selectedItems)) {
 					filteredItems = _.difference(filteredItems, scope.selectedItems);
 				}
-				scope.filteredItems = filteredItems;
+				scope.filteredItems = filteredItems.slice(0,100);
 			};
 
 			scope.$watch('$search', filterItems);
