@@ -7,9 +7,11 @@
 			<input type="text" ng-model="newTag" size="{{ newTag.length || '1' }}" ng-change="openMenu($event)" />
 		</div>
 	</div>
-	<ul class="chooser-dropdown" ng-show="matchingOptions().length && newTag.length">
-		<li ng-repeat="option in matchingOptions()" ng-mouseover="$parent.highlightedIndex = $index">
-			<a ng-class="{ highlight: highlightedIndex === $index }" href ng-click="addOption(option)" tabindex="-1">{{ option }}</a>
-		</li>
-	</ul>
+	<div class="chooser-dropdown" ng-show="matchingOptions().length && newTag.length">
+		<ul class="chooser-dropdown-list">
+			<li ng-repeat="option in matchingOptions()" ng-mouseover="$parent.highlightedIndex = $index">
+				<a ng-class="{ highlight: highlightedIndex === $index }" href ng-click="addOption(option)" tabindex="-1">{{ option }}</a>
+			</li>
+		</ul>
+	</div>
 </div>

@@ -445,10 +445,12 @@ angular.module("templates/chooser.tags.tpl.html", []).run(["$templateCache", fun
     "			<input type=\"text\" ng-model=\"newTag\" size=\"{{ newTag.length || '1' }}\" ng-change=\"openMenu($event)\" />\n" +
     "		</div>\n" +
     "	</div>\n" +
-    "	<ul class=\"chooser-dropdown\" ng-show=\"matchingOptions().length && newTag.length\">\n" +
-    "		<li ng-repeat=\"option in matchingOptions()\" ng-mouseover=\"$parent.highlightedIndex = $index\">\n" +
-    "			<a ng-class=\"{ highlight: highlightedIndex === $index }\" href ng-click=\"addOption(option)\" tabindex=\"-1\">{{ option }}</a>\n" +
-    "		</li>\n" +
-    "	</ul>\n" +
+    "	<div class=\"chooser-dropdown\" ng-show=\"matchingOptions().length && newTag.length\">\n" +
+    "		<ul class=\"chooser-dropdown-list\">\n" +
+    "			<li ng-repeat=\"option in matchingOptions()\" ng-mouseover=\"$parent.highlightedIndex = $index\">\n" +
+    "				<a ng-class=\"{ highlight: highlightedIndex === $index }\" href ng-click=\"addOption(option)\" tabindex=\"-1\">{{ option }}</a>\n" +
+    "			</li>\n" +
+    "		</ul>\n" +
+    "	</div>\n" +
     "</div>");
 }]);
